@@ -159,7 +159,13 @@ module RPXNow
   end
 
   def unobtrusive_popup_code(text, subdomain, url, options={})
-    %Q(<a class="rpxnow" href="#{popup_url(subdomain, url, options)}">#{text}</a>)
+    options[:html] ||= {}
+    options[:html][:class] ||= ''
+    options[:html][:class] += options[:html][:class].empty? ? 'rpxnow' : ' rpxnow'
+
+    attributes = options[:html].map { |k,v| "#{k}=\"#{v}\"" }.join(' ')
+    
+    %Q(<a #{attributes} href="#{popup_url(subdomain, url, options)}">#{text}</a>)
   end
 
   def obtrusive_popup_code(text, subdomain, url, options = {})

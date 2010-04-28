@@ -109,7 +109,19 @@ describe RPXNow do
     it "does not change supplied options" do
       options = {:xxx => 1}
       RPXNow.popup_code('a','b','c', options)
-      options.should == {:xxx => 1}
+      options.should == {:xxx => 1,:html => {:class=>"rpxnow"}}
+    end
+    
+    it "does allow to add class HTML attribute" do
+      options = {:html => {:class => "c1 c2"}}
+      RPXNow.popup_code('a','b','c', options).should =~ /class="c1 c2 rpxnow"/
+    end
+
+    it "does allow to add other HTML attributes" do
+      options = {:html => {:class => "c1 c2", :id => 'myId', :rel => 'nofollow'}}
+      html = RPXNow.popup_code('a','b','c', options)
+      html.should =~ /id="myId"/
+      html.should =~ /rel="nofollow"/
     end
 
     describe 'obstrusive' do
